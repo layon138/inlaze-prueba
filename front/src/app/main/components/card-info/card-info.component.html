@@ -1,8 +1,8 @@
-<div class="flex min-w-0 gap-x-4">
+<div class="flex min-w-0 gap-x-4 ml-1 mr-1" [ngClass]="{' reverse': !itsMyPost()}">
     <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-    <div class="min-w-0 flex-auto">
-      <p class="text-sm font-semibold leading-6 text-secondary">{{postInfo.userName}} -  <span class="text-sm  leading-6 text-gray"> 25/12/12</span></p>
-      <p class="text-sm font-semibold leading-6 text-primary">{{postInfo.title}}</p>
+    <div class="min-w-0 flex-auto" >
+      <p class="text-sm font-semibold leading-6 text-secondary">{{postInfo.username}} -  <span class="text-sm  leading-6 text-gray">{{postInfo.createat | date}}</span></p>
+      <p class="text-sm font-semibold leading-6 text-primary">{{postInfo?.title}}</p>
       <p class="text-sm font-semibold leading-6 text-gray">{{postInfo.description}}</p>
       <p ></p>
     </div>
@@ -16,7 +16,7 @@
           </svg>
         </div>
         <p class="sr-only">3.9 out of 5 stars</p>
-        <a href="#" class="ml-3 text-sm font-medium text-likes hover:text-likes">{{postInfo.likes}} likes</a>
+        <a  *ngIf="itsMyPost()" class="ml-3 text-sm font-medium text-likes hover:text-likes">{{postInfo.likes}} Editar</a>
       </div>
     </div>
   </div>

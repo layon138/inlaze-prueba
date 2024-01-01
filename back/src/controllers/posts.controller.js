@@ -1,11 +1,11 @@
 const pool = require("../db/db");
+const dayjs = require("dayjs");
 
 const createPost = async (req, res) => {
-  const post = req.body;
   try {
-    const user = req.body;
+    const post = req.body;
     const insert = await pool.query(
-      "INSERT INTO Users VALUES ($1,$2,$3,$4,$5,null,null);",
+      "INSERT INTO Posts (    id_user , title,content , likes , create_at, update_at, delete_at) VALUES ($1,$2,$3,$4,$5,null,null);",
       [post.userId, post.title, post.content, 0, dayjs().format("YYYY-MM-DD")]
     );
     res.json({
@@ -22,9 +22,8 @@ const createPost = async (req, res) => {
 };
 
 const getPostsList = async (req, res) => {
-  console.log(req);
   const response = await pool.query(
-    "SELECT * FROM Posts as p INNER JOIN Users as u ON u.id_user = p.id_user;",
+    "SELECT  p.title ,u.id_user as userId ,u.fullname as userName,p.content as description,p.create_at as createat  FROM Posts as p INNER JOIN Users as u ON u.id_user = p.id_user;",
     []
   );
   const listPosts = response.rows || [];

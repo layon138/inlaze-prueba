@@ -2,21 +2,22 @@ const dayjs = require("dayjs");
 const { v4: uuidv4 } = require("uuid");
 const jwt = require('jsonwebtoken');
 const pool = require('../db/db');
-
-
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotallySecretKey', { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 10 })
 
 const authUser = async (req, res) => {
   const user = req.body;
   const response = await pool.query(
-    "SELECT * FROM Users WHERE email = $1 and pass=$2",
-    [user.email, user.password]
+    "SELECT *,id_user as userId FROM Users WHERE email = $1",
+    [user.email]
   );
   const usuarios = response.rows || [];
-  if (usuarios.length > 0) {
-    const token   = jwt.sign({ foo: 'bar' }, 'shhhhh');
+  const encryptedString = cryptr.decrypt(usuarios[0].pass) || '';
+  if (usuarios.length > 0 &&   encryptedString===user.password) {
+    const token   = jwt.sign({ user: response[0] }, process.env.TOKEN_SECRET);
     res.json({
       message: "usuario encontrado",
-      user:response[0],
+      user:usuarios[0],
       status: "success",
       token: token,
     });
@@ -34,14 +35,15 @@ const authUser = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const user = req.body;
+    const encryptedString = cryptr.encrypt(user.password);
     await pool.query(
       "INSERT INTO Users VALUES ($1,$2,$3,$4,$5,$6,null,null);",
       [
-        "123456",
+        uuidv4(),
         user.fullname,
         user.dateborn,
         user.email,
-        user.password,
+        encryptedString,
         dayjs().format("YYYY-MM-DD"),
       ]
     );

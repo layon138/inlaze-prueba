@@ -21,7 +21,7 @@ export class LoginComponent {
     if(this.loginForm.valid){
       const res=await this.authService.authUser(this.loginForm.value);
       if(res.status==='success'){
-        this.authService.saveToken(res.token);
+        this.authService.saveToken(res.token,JSON.stringify(res.user));
         await this.router.navigateByUrl(`main`, { replaceUrl: true });
       }
     }

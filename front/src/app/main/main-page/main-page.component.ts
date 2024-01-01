@@ -16,15 +16,22 @@ export class MainPageComponent {
   }
 
   async ngOnInit(): Promise<void> {
-   const resp= await this.postsService.getPosts();
-   console.log(resp)
-   //this.listPosts=
+  this.loadPosts();
 
   }
 
-  async createPost($event:any){
-    const resp= await this.postsService.addPost($event);
+  async loadPosts(){
     const resp2= await this.postsService.getPosts();
+    this.listPosts=resp2.data.list || []
+  }
+
+  async createPost($event:any){
+    const post={
+      userId:JSON.parse(localStorage.getItem('user') || '').userid  || '',
+      ...$event
+    }
+   await this.postsService.addPost(post);
+   await this.loadPosts();
   }
 
   async signOutAction(){

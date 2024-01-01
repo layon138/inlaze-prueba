@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MainPageComponent } from './main-page/main-page.component';
 import { CardInfoComponent } from './components/card-info/card-info.component';
 import { FormInsertPostComponent } from './components/form-insert-post/form-insert-post.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +14,9 @@ import { FormInsertPostComponent } from './components/form-insert-post/form-inse
     FormInsertPostComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class MainModule { }

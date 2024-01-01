@@ -10,8 +10,9 @@ export class AuthService {
 
   constructor(private httpService:HttpClient) { }
 
-  saveToken(token: string){
+  saveToken(token: string,user:string){
     localStorage.setItem("token",token)
+    localStorage.setItem("user",user)
   }
 
   async registerUser(user:RegisterUserRequest): Promise<RegisterUserResponse> {

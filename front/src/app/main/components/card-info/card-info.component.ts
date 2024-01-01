@@ -8,12 +8,20 @@ import { Post } from '../../model/post.model';
 })
 export class CardInfoComponent {
   @Input() postInfo:Post={
-    "userName": "julisn vargas",
-    "likes": 1,
-    "title": "delectus aut autem",
-    "description": "delectus aut autem",
-    "date":"25/12/2023"
+    "username": "",
+    "likes": 0,
+    "title": "m",
+    "description": "",
+    "date":"",
+    "userid":"",
+    "createat":""
   }
   @Output() likeReaction = new EventEmitter<any>();
+
+  itsMyPost(){
+   const myId= JSON.parse(localStorage.getItem('user') || '').userid  || ''
+   console.log(myId===this.postInfo.userid )
+  return myId===this.postInfo.userid ? true:false
+  }
   
 }
