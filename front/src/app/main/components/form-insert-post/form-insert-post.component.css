@@ -1,0 +1,11 @@
+
+ .input-info{
+    align-items: flex-end;
+   
+}
+@media (max-width: 600px) {
+    .input-info{
+       flex-direction: column;
+       align-items: center;
+    }
+}

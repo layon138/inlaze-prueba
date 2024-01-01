@@ -18,6 +18,7 @@ export class LoginComponent {
   }
 
   async loginAPi(){
+
     if(this.loginForm.valid){
       const res=await this.authService.authUser(this.loginForm.value);
       if(res.status==='success'){

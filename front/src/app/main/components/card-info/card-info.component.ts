@@ -14,14 +14,24 @@ export class CardInfoComponent {
     "description": "",
     "date":"",
     "userid":"",
+    "postid":0,
     "createat":""
   }
-  @Output() likeReaction = new EventEmitter<any>();
+  @Output() editAction = new EventEmitter<any>();
+  @Output() deleteAction = new EventEmitter<any>();
 
-  itsMyPost(){
+  itsMyPost():boolean{
    const myId= JSON.parse(localStorage.getItem('user') || '').userid  || ''
-   console.log(myId===this.postInfo.userid )
-  return myId===this.postInfo.userid ? true:false
+    return myId===this.postInfo.userid ? true:false
+  }
+
+
+  loadToForm(){
+    this.editAction.emit(this.postInfo)
+  }
+
+  deleteCard(): void{
+    this.editAction.emit(this.postInfo)
   }
   
 }

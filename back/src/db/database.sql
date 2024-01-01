@@ -12,6 +12,9 @@ CREATE TABLE Users (
     PRIMARY KEY(id_user) 
 );
 
+ALTER TABLE Users
+ALTER COLUMN pass TYPE varchar(100);
+
 INSERT INTO Users 
 VALUES ('123456','julian vargas',28,'julian@yopmail.com','123654','1995-12-13',null,null);
 

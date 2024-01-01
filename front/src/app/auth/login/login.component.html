@@ -12,6 +12,9 @@
             <div class="mt-2">
               <input formControlName="email"  id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 px-1.5 py-1.5 text-secondary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
+            <div class="text-sm font-medium text-likes pt-1" *ngIf="loginForm.get('email')?.hasError('email') || loginForm.get('email')?.hasError('required') &&     this.loginForm.get('email')?.touched"  >
+              El correo no es correcto
+          </div>
           </div>
     
           <div>
@@ -24,6 +27,9 @@
             <div class="mt-2">
               <input formControlName="password"  id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 px-1.5 py-1.5 text-secondary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
+            <div class="text-sm font-medium text-likes pt-1" *ngIf="loginForm.get('password')?.hasError('required') &&   this.loginForm.get('password')?.touched"  >
+              El correo no es correcto
+          </div>
           </div>
     
           <div>
@@ -33,7 +39,7 @@
     
         <p class="mt-10 text-center text-sm text-gray-500"  >
           No tienes cuenta? 
-          <a   routerLink="/register" routerLinkActive="active"  class="font-semibold leading-6 text-other hover:text-primary">Registrate aqui!</a>
+          <a   routerLink="/auth/register" routerLinkActive="active"  class="font-semibold leading-6 text-other hover:text-primary">Registrate aqui!</a>
         </p>
       </div>
     </div>

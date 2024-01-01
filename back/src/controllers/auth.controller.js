@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const jwt = require('jsonwebtoken');
 const pool = require('../db/db');
 const Cryptr = require('cryptr');
-const cryptr = new Cryptr('myTotallySecretKey', { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 10 })
+const cryptr = new Cryptr(process.env.PASSWORDKEY, { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 10 })
 
 const authUser = async (req, res) => {
   const user = req.body;
@@ -44,7 +44,7 @@ const createUser = async (req, res) => {
         user.dateborn,
         user.email,
         encryptedString,
-        dayjs().format("YYYY-MM-DD"),
+        dayjs().format(),
       ]
     );
     res.json({

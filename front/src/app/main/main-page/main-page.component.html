@@ -1,6 +1,6 @@
 
 
-  <div class="min-h-full">
+  <div class="min-h-full" >
     <nav class="bg-gray-800">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
@@ -9,61 +9,25 @@
               <img class="h-8 w-8" src="assets/logoDark.svg"  alt="Your Company">
             </div>
             <div class="hidden md:block">
-              <div class="ml-10 flex items-baseline space-x-4">
-                    <label for="fullname" class="block text-sm font-medium leading-6 text-secondary">Buscar</label>
-                    <div class="mt-2">
-                      <input formControlName="fullname"  id="fullname" name="fullname" type="text" required class="block w-full rounded-md border-0 px-1.5 py-1.5 text-secondary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-              </div>
+             
             </div>
           </div>
-          <div class="hidden md:block">
+          <div >
             <div class="ml-4 flex items-center md:ml-6">
              
   
               <!-- Profile dropdown -->
               <div class="relative ml-3">
                 <div>
-                  <button type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <button (click)="modalAction()"  type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">Open user menu</span>
-                    <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                    <img class="h-8 w-8 rounded-full" src="assets/user.png" alt="">
                   </button>
                 </div>
   
-                <!--
-                  Dropdown menu, show/hide based on menu state.
-  
-                  Entering: "transition ease-out duration-100"
-                    From: "transform opacity-0 scale-95"
-                    To: "transform opacity-100 scale-100"
-                  Leaving: "transition ease-in duration-75"
-                    From: "transform opacity-100 scale-100"
-                    To: "transform opacity-0 scale-95"
-                -->
-                <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                  <!-- Active: "bg-gray-100", Not Active: "" -->
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                  <a (click)="signOutAction()" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-                </div>
               </div>
             </div>
-          </div>
-          <div class="-mr-2 flex md:hidden">
-            <!-- Mobile menu button -->
-            <button type="button" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false">
-              <span class="absolute -inset-0.5"></span>
-              <span class="sr-only">Open main menu</span>
-              <!-- Menu open: "hidden", Menu closed: "block" -->
-              <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-              <!-- Menu open: "block", Menu closed: "hidden" -->
-              <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
           </div>
         </div>
       </div>
@@ -72,16 +36,105 @@
   
     </nav>
     <header class="bg-white shadow pb-1 pt-1">
-      <app-form-insert-post (callApiPosts)="createPost($event)"></app-form-insert-post>
+      <app-form-insert-post  [postToEdit]="postEdit" (callApiPosts)="createPost($event)"></app-form-insert-post>
       </header>
     <main>
       <div class="flex justify-center  mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <ul role="list" class="divide-y divide-gray-100" >
             <li class="flex justify-between gap-x-6 py-5" *ngFor="let post of listPosts">
-                <app-card-info [postInfo]="post"></app-card-info>
+                <app-card-info [postInfo]="post" (editAction)="callDeletePostApi($event)" (editAction)="loadPostForm($event)"></app-card-info>
             </li>
           
         </ul>
       </div>
     </main>
+  </div>
+
+  <div *ngIf="showSideBar"  class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+    <!--
+      Background backdrop, show/hide based on slide-over state.
+  
+      Entering: "ease-in-out duration-500"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "ease-in-out duration-500"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  
+    <div class="fixed inset-0 overflow-hidden">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+          <!--
+            Slide-over panel, show/hide based on slide-over state.
+  
+            Entering: "transform transition ease-in-out duration-500 sm:duration-700"
+              From: "translate-x-full"
+              To: "translate-x-0"
+            Leaving: "transform transition ease-in-out duration-500 sm:duration-700"
+              From: "translate-x-0"
+              To: "translate-x-full"
+          -->
+          <div class="pointer-events-auto w-screen max-w-md">
+            <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+              <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                <div class="flex items-start justify-between">
+                  <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Profile</h2>
+                  <div class="ml-3 flex h-7 items-center">
+                    <button (click)="modalAction()" type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
+                      <span class="absolute -inset-0.5"></span>
+                      <span class="sr-only">Close panel</span>
+                      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+  
+                <div class="mt-8">
+                  <div class="flow-root">
+                    <ul role="list" class="-my-6 divide-y divide-gray-200">
+                      <li class="flex py-6">
+                        <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                          <img src="assets/user.png" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
+                        </div>
+  
+                        <div class="ml-4 flex flex-1 flex-col">
+                          <div>
+                            <div class="flex justify-between text-base font-medium text-gray-900">
+                              <h3>
+                                <a href="#">{{user.fullname}}</a>
+                              </h3>
+                              <p class="ml-4"></p>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500">{{user.email}}  </p>
+                          </div>
+                          <div class="flex flex-1 items-end justify-between text-sm">
+                            <p class="text-gray-500">{{user.age}} años</p>
+  
+                          </div>
+                        </div>
+                      </li>
+                      <li class="flex py-6">
+                       
+                        <div class="ml-4 flex flex-1 flex-col">
+                          <div class="flex">
+                            <button type="button"(click)="signOutAction()" class="font-medium text-indigo-600 hover:text-indigo-500">Cerrar Session</button>
+                          </div>
+                        </div>
+                      </li>
+  
+                      <!-- More products... -->
+                    </ul>
+                  </div>
+                </div>
+              </div>
+  
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
